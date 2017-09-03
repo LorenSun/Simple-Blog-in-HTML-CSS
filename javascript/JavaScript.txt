@@ -1,0 +1,260 @@
+JavaScript
+    基于对象的程序语言
+    js是由浏览器解释执行，运行在客户端。java是由jvm解释执行。
+    js是弱类型，java是强类型
+    js是非严谨的，java是严谨的
+    ECMAscript:它是整个javascript的核心，包括（基本语法、变量、关键字、保留字、数据类型、语句函数等）
+    DOM:文档对象模型，包含（整个html页面的内容）
+    BOM:浏览器对象模型，包含（整个浏览器相关内容）
+
+    javascript需要被浏览器所解释执行，就必须将代码与html相结合。
+    结合方式
+    1、通过定义<script>标签将js代码存放入其中，并指定type属性，方便于浏览器启动指定的解析引擎。
+    2、也可以通过<script>标签，使用src属性连接一个指定的js文件。
+    JS代码存放在
+    1、<script type="text/javascript"></script>
+    2、<script type="text/javascript" src="1.js"></script>
+JS语法
+    在js中 0为假 非0为真，非null为真，null为假
+    1、var x = 3;      定义变量
+        x = "abc";
+      JS中的特殊常量值undefined
+      for(var x=1;x<3;x++){}
+      document.write();
+      arguements.length();
+    2、数组(最常用的容器)
+      var arr = [4,1,8,2];
+      该数组的长度是可变的，相对于java中的集合。
+      数组中可以存放的元素类型可以不同。
+    3、function函数   (没有重载形式)
+      function show() //show就是一个函数对象，show是该函数对象的名字
+      {alert("show run");}
+      show();
+      动态函数
+        var show = new Function("x","y","var sum = x+y;return sum;")
+        var sum = show(5,7);
+        alert(sum);
+        将参数列表，和方法作为参数传递
+      匿名函数//通常用于事件处理
+        var show = function()
+        {alert("function run");}
+        show();
+          #在函数使用时需要注意的部分
+          function show()
+          {
+          alert("show run");
+          }
+          var method = show();
+          var method = show;
+          两句代码都是正确的
+          第一句表示的是show方法运行的结果赋值给method变量。
+          第二句表示的是将show指向的对象的地址赋值给method，那么method也指向了该对象
+          那么就可以通过method();的形式来调用这个show方法
+    对象的自定义
+      funcion Person(){}//类似于构造函数
+        var p = new Person(); //注意是var，而不是Person
+        p.name = "zhangsan"; //p.age的另一种写法p["name"]
+        p.age = 30;
+        p.eat = function()//匿名对象
+        {alert("eat");}
+        p.eat;
+
+    with语句
+      function Student(name,age)
+        {this.name = name;
+          this.age= age;}
+      var stu  = new Student("lisi",15);
+      with(stu)//确定对象所使用的的范围
+      {alert(name+".."+age)}
+    for..in语句
+      for(s in stu)
+      {alert(s+":"+stu[s]);}
+      for(x in arr)
+      {alert(arr[x]);}
+
+    随意数转换十进制
+      praseInt("110",2)
+    转换其他进制
+      var x = 10;
+      var y = x.toString(2);
+
+    js中有一些已定义好的一些对象
+      1、String，Math,Date，Array，Function
+      这些对象都有一个属性叫做prototype原型
+      prototype方法，获取对象原型，拿到原对象的引用，并给它定义一个自定义功能
+      可以通过该引用给已有的对象赋予一些新功能
+
+      var str = "abc";
+      str.substr(1,2);
+      str.substring(1,2);
+      str.bold();//<b>str</b>
+
+    function getMax()
+      {
+      var max = this[0];
+      for (var i = 1; i < this.length; i++) {
+       if(max<this[i])
+         max = this[i];
+         }
+     return max;
+     }
+    Array.prototype.getZuida = getMax;
+   var arr=[2,3,5,8];
+   var x = arr.getZuida();
+
+
+   //给字符串对象定义一个新功能，去掉字符串两端空格
+   function trim()
+   {
+        var start,end;
+        start = 0;
+        end = this.length-1;
+        while(start<=end&&this.charAt(start)==" ")
+              start++;
+        while(start<=end&&this.charAt(start)==" ")
+              end--;
+        return this.substring(strat,end+1);
+   }
+   String.prototype.trim = trim;
+   var s = "  a   b  c   ";
+   s.trim();
+
+
+
+   常见的全局方法：
+   parseInt(numstr,[radix]);//将数字格式的字符串转成整数，若设定基数，则会按指定基数进制进行转换。
+
+DOM编程：document objecrt model 文档对象模型
+   dom三层模型：
+   dom1：将html文档封装成对象
+   dom2：将xml文档封装成对象
+   dom3：将xml文档封装成对象
+    window
+        |--document
+              |--html
+                  |--head
+                      |--title
+                      |--base
+                      |--meta
+                      |--link
+                      |--style
+                  |--body
+                      |--table
+                          |--tbody
+                              |--tr
+                                  |--td
+                                  |--th
+                      |--div
+                      |--form
+                      |--input
+                      |--select
+                      |--a
+                      |--dl
+                          |--dt
+                          |--dd
+
+    DOM树
+    通过这个标签层次，可以形象的看作是一个树形结构。那么我也称标记性文档，加载进内存的是一颗DOM树。
+    当标记性文档加载进内存，那么内存中有了一个对应的DOM树。
+    DOM对以标记性文档的解析有一个弊端就是文档过大，相对消耗资源。
+    对于大型文档可以使用SAX这种方式解析。
+
+    DHTML：动态html
+    由html css dom javascript组合的综合体
+    html：将数据进行封装
+    dom：将标签封装成对象
+    css：负责标签中数据的样式
+    javascript：将三个进行融合，通过程序设计方式来完成动态效果的操作
+    +   xmlHttpRequest --->AJAX
+    function demo(){
+      var divobj = document.getElementById(divid);
+      divobj.style.backgroundColor = "red";
+    }
+    <input type="button" value="演示" onclick="demo()"/>
+    <div id = "divid">
+    </div>
+
+
+    节点
+    标签型结点：类型：1
+    属性节点：类型：2
+    文本型节点：类型：3
+    注释型节点：类型：8
+    document：类型:9
+
+
+    注意：标签之间存在空行时，会出现一个空白的文本节点，在获取节点时一定要注意。
+    容器型标签：value:null
+
+
+    节点的关系：
+    父节点 parentNode
+    子节点 childNodes:直接子节点 ,返回的是一个节点对象数组。
+    兄弟节点：
+    上一个兄弟节点:previousSibling
+    下一个兄弟节点:nextSibling
+
+    获取节点可以通过节点的层次观念西完成，也可以使用document对象完成
+    getElementById：通过id属性值获取对应的节点内对象，如果有多一个id值相同，
+                    获取到的是第一个id所属对象
+    getElementsByName：通过标签的name属性值获取对象，返回的一堆对象，其实是一个对象数组。
+    getElementsByTagName：既没有id也没有name值时，可以通过标签名来获取节点对象，返回的是一堆对象（数组）。
+        大多数容器型标签都具备该方法。
+
+
+    通过递归获取节点的层次关系
+    var str = "";
+
+    function listNode(node,level)
+    {
+      printInfo(node,level);
+      level++;
+      var nodes = node.childNodes;
+      for (var i = 0; i < nodes.length; i++) {
+        if(nodes[i].hasChildNodes())
+            listNode(nodes[i],level);
+            else {
+              printInfo(nodes[i],level);
+            }
+      }
+    }
+    function getSpace(level)
+    {
+      var s= "";
+      for (var i = 0; i < level; i++) {
+        s+="|----";
+      }
+      return s;
+    }
+    function printInfo(node,level)
+    {
+      str+=getSpace(level)+"name:"+node.nodeName+"   "+"type:"+node.nodeType+"   "+"value:"+node.nodeValue+"</br>";
+    }
+
+    function getNodes(){
+      listNode(document,0);
+      document.write(str);
+    }
+    window对象//Window 对象表示浏览器中打开的窗口。
+      function windemo(){
+        var name =  window.navigator.appName;
+        var version = window.navigator.appVersion;
+        var platform = window.navigator.platform;
+        alert(name+"......."+platform);
+    }
+    window.open(..):
+    setTimeout(..);
+    setInterval(..);
+
+   节点操作
+   1、定义数据封装的标签：（定义界面）
+   2、确定事件源
+   3、注册事件
+   4、事件处理
+
+   <a href="javascript:void(0)"></a>取消超链接效果
+
+
+   获取事件源对象的两种方式
+   1、通过event对象的srcElement属性。
+   2、将事件源对象通过this传入
